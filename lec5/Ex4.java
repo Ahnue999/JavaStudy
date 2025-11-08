@@ -1,140 +1,53 @@
 import java.util.Scanner;
 
-public class Ex4
-{
-	public static void main(String [] args)
-	{
+public class Ex4 {
+	public static void main(String [] args) {
 		Scanner input = new Scanner(System.in);
-		String name, number;
-		double balance, amount;
-		int choice;
+		int a, b, c;
 
-		System.out.println("Enter Account Name");
-		name = input.nextLine();
-		System.out.println("Enter Account Number");
-		number = input.nextLine();
-		System.out.println("Enter Account Balance");
-		balance = input.nextDouble();
+		System.out.println("Enter grade for subject1");
+		a = input.nextInt();
+		System.out.println("Enter grade for subject2");
+		b = input.nextInt();
+		System.out.println("Enter grade for subject3"); c = input.nextInt();
+		GradeBook myBook = new GradeBook(a, b, c);
 
-
-		BankAccount acc1 = new BankAccount(name, number, balance);
-
-
-		while (true)
-		{
-			System.out.println("");
-			System.out.printf("[1] Deposit\n[2] Withdraw\n[3] Check Account\n[4] Exit\n");
-			choice = input.nextInt();
-			switch (choice)
-			{
-				case 1:
-					System.out.println("Enter the amount to deposit");
-					amount = input.nextDouble();
-					cls();
-					acc1.deposit(amount);
-					break;
-				case 2:
-					System.out.println("Enter the amount to withdraw");
-					amount = input.nextDouble();
-					cls();
-					acc1.withdraw(amount);
-					break;
-				case 3:
-					cls();
-					acc1.check();
-					break;
-				case 4:
-					cls();
-					System.out.println("Thanks for using our service");
-					System.out.println("See You Next Time");
-					return;
-				default:
-					cls();
-					System.out.println("Please enter a valid choice");
-			}
-		}
-
+		System.out.printf("The total is: %.2f%n", myBook.getTotal());
+		System.out.printf("The rate is: %.2f%%%n", myBook.rate());
+		System.out.printf("Rate of Appreciation: %s%n", myBook.appreciation());
 	}
-	public static class BankAccount
-	{
-		String name;
-		String No;
-		double balance;
+	public static class GradeBook {
+		float subject1, subject2, subject3;
 
-		// Setters
-		public void setName(String s)
-		{
-			this.name = s;
-		}
-		public void setNo(String s)
-		{
-			this.No = s;
-		}
-		public void setBalance(double d)
-		{
-			this.balance = d;
+		public GradeBook(float s1, float s2, float s3) {
+			this.subject1 = s1;
+			this.subject2 = s2;
+			this.subject3 = s3;
 		}
 
-		// Getters
-		public String getName()
-		{
-			return (this.name); }
-		public String getNo()
-		{
-			return (this.No);
-		}
-		public double getBalance()
-		{
-			return (this.balance);
+		public float getTotal() {
+			float total = 0;
+			total += this.subject1 + this.subject2 + this.subject3;
+			return total;
 		}
 
-		public BankAccount(String Name, String number, double Balance)
-		{
-			this.name = Name;
-			this.No = number;
-			this.balance = Balance;
+		public float rate() {
+			return (getTotal()/300);
 		}
-		public void BankAccount(String n, String number)
-		{
-			this.name = n;
-			this.No = number;
-			this.balance = 0;
+		public String appreciation() {
+			if (this.rate() >= .85)
+				return ("Dist");
+			else if (this.rate() >= .75)
+				return ("Very Good");
+			else if (this.rate() >= .65)
+				return ("Good");
+			else if (this.rate() >= .50)
+				return ("Pass");
+			else
+				return ("Failed");
 		}
-
-		public void deposit(double amount)
-		{
-			if (amount < 0)
-			{
-				System.out.printf("UNABLE TO DEPOSIT A MINUS VALUE, CURRENT ACCOUNT BALANCE IS: %.2f%n", getBalance());
-				return;
-			}
-			this.balance += amount;
-			System.out.printf("DEPOSIT SUCCECEFUL, CURRENT BALANCE IS: %.2f%n", getBalance());
-		}
-
-		public double withdraw(double amount)
-		{
-			if (amount > getBalance())
-			{
-				System.out.printf("UNABLE TO WITHDRAW, CURRENT ACCOUNT BALANCE IS: %.2f%n", getBalance());
-				return (0);
-			}
-			this.balance -= amount;
-			System.out.printf("WITHDRAW SUCCECEFUL, CURRENT BALANCE IS: %.2f%n", getBalance());
-			return (amount);
-		}
-		public double check()
-		{
-			System.out.printf("\t###ACCOUNT DETAILS###\n");
-			System.out.printf("Account Name: %s%n", getName());
-			System.out.printf("Account Number: %s%n", getNo());
-			System.out.printf("CURRENT BALANCE IS: %.2f%n", getBalance());
-			return (getBalance());
-		}
-
 	}
-	public static void cls()
-	{
+	public static void cls() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
