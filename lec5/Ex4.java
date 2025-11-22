@@ -52,3 +52,4 @@ public class Ex4 {
 		System.out.flush();
 	}
 }
+
